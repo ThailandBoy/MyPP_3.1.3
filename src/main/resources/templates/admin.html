@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+  <p>Admin page</p>
+  <p th:text="${user.getUsername()}"></p>
+  <p th:text="${user.getRoles()}"></p>
+  <p th:text="${user.getEmail()}"></p>
+  <a href="/admin/index" class="btn btn-primary">User management</a>
+  <br>
+  <a href="/logout">Logout</a>
+
+</body>
+</html>
