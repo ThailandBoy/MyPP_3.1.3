@@ -1,37 +1,51 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="ISO-8859-1">
-  <title>User Management System</title>
+    <meta charset="ISO-8859-1">
+    <title>User Management System</title>
 
-  <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
-  <h1>User Management System</h1>
-  <hr>
-  <h2>Update user</h2>
+    <h1>User Management System</h1>
+    <hr>
+    <h2>Update user</h2>
 
-  <form action="#" th:action="@{../save}" th:object="${user}"
-        method="POST">
+    <form action="#" th:action="@{../saveWrapper}" th:object="${userRoleWrap}"
+          method="POST">
 
-    <!-- Add hidden form field to handle update -->
-    <input type="hidden" th:field="*{id}" />
+        <!-- Add hidden form field to handle update -->
+        <input type="hidden" th:field="*{user.id}"/>
 
-    <input type="text" th:field="*{username}" class="form-control mb-4 col-4">
-    <input type="password" th:field="*{password}" class="form-control mb-4 col-4">
-    <input type="text" th:field="*{email}" class="form-control mb-4 col-4">
+        <input type="text" th:field="*{user.username}" class="form-control mb-4 col-4">
+        <input type="password" th:field="*{user.password}" class="form-control mb-4 col-4">
+        <input type="text" th:field="*{user.email}" class="form-control mb-4 col-4">
+        <table>
+            <thead>
+            <tr>
+                <th> Role</th>
+                <th> Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="role, itemStat : *{roleList}">
+                <input type="hidden" th:field="*{roleList[__${itemStat.index}__].id}"/>
+                <input type="hidden" th:field="*{roleList[__${itemStat.index}__].name}"/>
+                <td><p th:text="*{roleList[__${itemStat.index}__].name}"></p></td>
+                <td><input type="checkbox" value="on" th:field="*{roleList[__${itemStat.index}__].trigger}"/></td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-info col-2"> Update user</button>
+    </form>
 
-    <button type="submit" class="btn btn-info col-2"> Update user</button>
-  </form>
+    <hr>
 
-  <hr>
-
-  <a th:href = "@{../index}" class="btn btn-primary btn-sm mb-3" > Back to user list</a>
-  <br>
-  <a href="/logout" class="btn btn-primary btn-sm mb-3" >Logout</a>
+    <a th:href="@{../index}" class="btn btn-primary btn-sm mb-3"> Back to user list</a>
+    <br>
+    <a href="/logout" class="btn btn-primary btn-sm mb-3">Logout</a>
 </div>
 </body>
 </html>

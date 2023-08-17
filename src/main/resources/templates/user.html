@@ -7,8 +7,11 @@
 <body>
     <p>User page</p>
     <p th:text="${user.getUsername()}"></p>
-    <p th:text="${user.getRoles()}"></p>
+    <tr th:each="role:${user.getRolesList()}">
+        <td th:text="${role.getName()}">&nbsp;</td>
+    </tr>
     <p th:text="${user.getEmail()}"></p>
+    <a th:href="@{./showFormForUpdateUser/{id}(id=${user.id})}" class="btn btn-primary">Update</a>
     <a href="/logout">Logout</a>
 </body>
 </html>

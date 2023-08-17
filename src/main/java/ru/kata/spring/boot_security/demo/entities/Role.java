@@ -2,12 +2,7 @@ package ru.kata.spring.boot_security.demo.entities;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.Column;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
@@ -19,6 +14,9 @@ public class Role implements GrantedAuthority {
 
     @Column
     private String name;
+
+    @Transient
+    private String trigger;
 
     public Role() {
     }
@@ -43,15 +41,25 @@ public class Role implements GrantedAuthority {
     }
 
     @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + ' ' +
-                '}';
+    public String getAuthority() {
+        return name;
+    }
+
+
+    public String getTrigger() {
+        return trigger;
+    }
+
+    public void setTrigger(String trigger) {
+        this.trigger = trigger;
     }
 
     @Override
-    public String getAuthority() {
-        return name;
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", trigger='" + trigger + '\'' +
+                '}';
     }
 }

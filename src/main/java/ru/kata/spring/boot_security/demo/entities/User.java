@@ -4,15 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.Column;
-import javax.persistence.ManyToMany;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -23,14 +15,14 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(unique = true)
     private String username;
     @Column
     private String password;
     @Column
     private String email;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -103,14 +95,22 @@ public class User implements UserDetails {
     public Collection<Role> getRoles() {
         return roles;
     }
+    public Collection<Role> getRolesList() {
+        return roles.stream().toList();
+    }
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
     }
 
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getAuthority())).collect(Collectors.toList());
+        return roles;
+        //return roles.stream().map(r -> new SimpleGrantedAuthority(r.getAuthority())).collect(Collectors.toList());
     }
 
 
